@@ -1,0 +1,147 @@
+.nav-container {
+    padding: 2rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.nav-container img {
+    width: 130px;
+    
+}
+
+.img-container {
+    border-bottom-right-radius: 100px;
+    background-image: url("../assets/login-bg.jpg");
+    height: 35vh;
+    width: 100vw;
+    background-size: cover;
+    background-position: center 40%;
+    position: relative;
+}
+
+.img-container.img-2 {
+    background-image: url("../assets/finish-ride-bg.jpg");
+}
+
+.img-container h1 {
+    position: absolute;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.675rem;
+    left: 1rem;
+    bottom: 1rem;
+}
+
+@media screen and (max-width: 992px) {
+    .nav-container img {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .nav-container img {
+        width: 80px;
+    }
+    .nav-container {
+        padding: 1.25rem;
+        padding-bottom: 1rem;
+    }
+    .img-container {
+        background-position: center 100%;
+    }
+}
+
+.login-bg {
+    height: 40vh;
+    width: 100vw;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: 10% 40%;
+       object-position: 10% 40%;
+}
+
+.login-form {
+    margin-inline: 1rem;
+    margin-top: 30px;
+}
+
+.login-form p {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.login-form a, .primary-btn a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.login-form input {
+    width: 100%;
+    max-width: 600px;
+    height: 40px;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--black);
+}
+
+.login-form button, .primary-btn {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 1rem 2rem;
+    border: 0;
+    border-radius: 1rem;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.details-div {
+    margin-inline: 1rem;
+    font-size: 13px;
+    margin-top: 25px;
+    font-weight: 500;
+}
+
+.details-div .flex {
+    margin-top: 10px;
+    gap: 5px;
+    font-weight: 600;
+    
+}
+
+.details-div .flex img {
+    width: 20px;
+}
+
+.details-div .flex a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+.footer {
+    font-size: 13px;
+    gap: 5px;
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
+}
+
+.footer .flex {
+    gap: 5px;
+}
+
+.footer .flex img {
+    width: 16px;
+}

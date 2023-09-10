@@ -1,0 +1,127 @@
+.finish-ride-container {
+    padding: 1rem;
+    height: calc(65vh - 73.61px);
+}
+
+@media screen and (min-width: 577px) {
+    .finish-ride-container {
+        height: auto;
+    }
+}
+
+.finish-ride-container .number-div h5 {
+    font-size: 3rem;
+    font-weight: 600;
+}
+.finish-ride-container .number-div.small h5 {
+    font-size: 2.5rem;
+}
+.finish-ride-container .number-div .flex {
+    gap: 10px;
+    margin-bottom: -10px;
+}
+
+.finish-ride-container .number-div .flex p {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--darkgray);
+}
+
+.finish-ride-container .number-div.small p {
+    margin-bottom: 7px;
+}
+
+.finish-ride-container .number-div > p {
+    color: var(--gray);
+    font-weight: 600;
+}
+
+.finish-ride-container .flex.gap-4 {
+    gap: 4rem;
+    margin-top: 20px;
+}
+
+.finish-ride-container > p {
+    font-weight: 500;
+}
+
+.finish-ride-container .flex {
+    margin-top: -5rem;
+    margin-bottom: -3rem;
+}
+
+    .rating-group {
+      display: -webkit-inline-box;
+      display: -webkit-inline-flex;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+    }
+
+    /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+    .rating-group {
+        display: -webkit-inline-box;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        margin-left: -5px;
+    }
+    
+    /* make hover effect work properly in IE */
+    .rating__icon {
+      pointer-events: none;
+    }
+    
+    /* hide radio inputs */
+    .rating__input {
+     position: absolute !important;
+     left: -9999px !important;
+    }
+    
+    /* hide 'none' input from screenreaders */
+    .rating__input--none {
+      display: none
+    }
+  
+    /* set icon padding and size */
+    .rating__label {
+      cursor: pointer;
+      padding: 0 0.1em;
+      margin-inline: 5px;
+      font-size: 2rem;
+    }
+    
+    /* set default star color */
+    .rating__icon--star {
+      color: var(--primary);
+    }
+  
+    /* if any input is checked, make its following siblings grey */
+    .rating__input:checked ~ .rating__label .rating__icon--star {
+      color: var(--ddd);
+    }
+    
+    /* make all stars orange on rating group hover */
+    .rating-group:hover .rating__label .rating__icon--star {
+        color: var(--primary);
+    }
+  
+    /* make hovered input's following siblings grey on hover */
+    .rating__input:hover ~ .rating__label .rating__icon--star {
+      color: var(--ddd);;
+    }
+
+.rating-group button {
+    border: 0;
+    background: transparent;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-left: 1rem;
+}
+
+.success-message {
+    font-weight: 600;
+    font-size: 1.25rem;
+    height: 72px;
+    color: var(--primary);
+}

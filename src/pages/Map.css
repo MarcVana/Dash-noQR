@@ -1,0 +1,44 @@
+.map-screen {
+    overflow: hidden;
+    height: 100vh;
+}
+.map-container {
+    width: 100vw;
+    height: 105vh;
+}
+.map-screen > a {
+    position: absolute;
+    z-index: 5;
+    bottom: 1rem;
+    left: 1rem;
+    width: calc(100% - 2rem);
+    margin-top: 20px;
+    padding: 1rem 2rem;
+    border: 0;
+    border-radius: 1rem;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+}
+
+.map-screen .button-flex img {
+    width: 24px;
+}
+
+.map-screen .flex.align-center {
+    gap: 5px;
+    font-size: 1rem;
+}
+
+.nav-container.position-absolute {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+    z-index: 2;
+}
