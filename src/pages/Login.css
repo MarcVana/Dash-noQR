@@ -41,7 +41,6 @@
     left: 1rem;
     bottom: 1rem;
 }
-
 @media screen and (max-width: 992px) {
     .nav-container img {
         width: 100px;
@@ -60,6 +59,15 @@
         background-position: center 100%;
     }
 }
+
+@media screen and (max-height: 750px) {
+    .img-container {
+        height: 200px;
+        background-position: center 60%;
+        border-bottom-right-radius: 50px;
+    }
+}
+
 
 .login-bg {
     height: 40vh;
@@ -92,6 +100,7 @@
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     border: 1px solid var(--black);
+    font-size: 16px;
 }
 
 .login-form button, .primary-btn {
