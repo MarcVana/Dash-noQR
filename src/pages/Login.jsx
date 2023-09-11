@@ -2,16 +2,25 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import PopUpContainer from '../components/popups/PopUpContainer';
 import './Login.css'
+import { useNavigate } from 'react-router-dom'
+
 
 function Login() {
   const [PopUpState,setPopUpState] = useState(false);
+  const navigate = useNavigate();
+
+  const Submit = (e) => {
+    e.preventDefault();
+    navigate("/Map");
+  }
+
   return (
     <>
         <div className="nav-container">
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
         </div>
         <div className="img-container"><h1>Let's get you riding.</h1></div>
-        <form className="login-form">
+        <form className="login-form" action={Submit}>
           <div>
             <p>Password</p>
             <input type="text" required></input>
