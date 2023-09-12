@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import './Map.css'
-import RidePopUpContainer from '../components/popups/RidePopUpContainer';
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
+import RidePopUpContainer from '../components/popups/RidePopUpContainer'
+import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api"
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);

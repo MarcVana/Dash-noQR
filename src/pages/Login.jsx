@@ -38,7 +38,7 @@ function Login() {
           <p><NavLink to="/Terms">Terms &amp; Conditions</NavLink> apply.</p>
           <div className="flex align-center justify-center">
             <img src="copyright.svg" alt="icon" />
-            <p>2023 Dash</p>
+            <p>2023 Dash v0.1</p>
           </div>
         </div>
         {PopUpState && <PopUpContainer title="Get your password" text="You need to... Lorem ipsum dolor sit amet consectetur. Tellus rhoncus morbi eget dignissim. Neque eget id et eu. Sapien aliquam amet mauris sit. Lorem ipsum dolor sit amet consectetur. Tellus rhoncus morbi eget dignissim. Neque eget id et eu. Sapien aliquam amet mauris sit." close={()=>setPopUpState(false)}/>}

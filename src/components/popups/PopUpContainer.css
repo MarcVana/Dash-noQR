@@ -32,9 +32,10 @@
 }
 
 .pop-up-container.ride {
-    top: unset;
-    bottom: -10.4rem;
     padding: 1.75rem;
+    left: 1rem;
+    top: unset;
+    bottom: -100px;
 }
 
 .pop-up-container svg {
@@ -178,7 +179,15 @@
     -webkit-transform: translateX(2.25rem);
         -ms-transform: translateX(2.25rem);
             transform: translateX(2.25rem);
-    gap: 1rem;
+    gap: 1.5rem;
+}
+
+@media screen and (max-width: 360px) {
+    .pop-up-container.ride .flex.ride-options-circles {
+        -webkit-transform: translateX(1rem);
+            -ms-transform: translateX(1rem);
+                transform: translateX(1rem);
+    }
 }
 
 .pop-up-container.ride .ride-options-circle {
