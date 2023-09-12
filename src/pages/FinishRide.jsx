@@ -25,7 +25,7 @@ function FinishRide() {
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
         </div>
         <div className="img-container img-2"><h1>Thank you.</h1></div>
-        <div className="finish-ride-container flex flex-column justify-between">
+        <div className="finish-ride-container flex flex-column">
             <h2>You finished your ride.</h2>
             <div className="flex align-center gap-4">
                 <div className="number-div small">

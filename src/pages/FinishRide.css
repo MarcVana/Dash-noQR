@@ -1,7 +1,5 @@
 .finish-ride-container {
     padding: 1rem;
-    height: calc(65vh - 73.61px);
-    position: relative;
 }
 
 @media screen and (min-width: 577px) {
@@ -48,8 +46,7 @@
 }
 
 .finish-ride-container .flex {
-    margin-top: -5rem;
-    margin-bottom: -3rem;
+    margin-bottom: 2rem;
 }
 
     .rating-group {
@@ -126,4 +123,13 @@
     font-size: 1.25rem;
     height: 72px;
     color: var(--primary);
+}
+
+.finish-ride-container .primary-btn {
+    position: absolute;
+    display: inline-block;
+    width: calc(100% - 2rem);
+    max-width: 600px;
+    bottom: 1rem;
+    left: 1rem;
 }
