@@ -19,7 +19,7 @@ function Map() {
       <div className="nav-container position-absolute">
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
       </div>
-      <GoogleMap onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false}} zoom={15} center={center} mapContainerClassName="map-container">
+      <GoogleMap onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
           <MarkerF position={center}></MarkerF>
       </GoogleMap>
       <a onClick={()=>setPopUpState(!PopUpState)}>

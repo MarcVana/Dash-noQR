@@ -4,7 +4,8 @@
 }
 .map-container {
     width: 100vw;
-    height: 105vh;
+    height: 100vh;
+    overflow: hidden;
 }
 .map-screen > a {
     position: absolute;
