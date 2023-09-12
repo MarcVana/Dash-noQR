@@ -20,7 +20,7 @@ function Login() {
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
         </div>
         <div className="img-container"><h1>Let's get you riding.</h1></div>
-        <form className="login-form" action={Submit}>
+        <form className="login-form" onSubmit={Submit}>
           <div>
             <p>Password</p>
             <input type="text" required></input>
