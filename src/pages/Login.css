@@ -66,6 +66,9 @@
         background-position: center 60%;
         border-bottom-right-radius: 50px;
     }
+    .finish-ride-container {
+        height: calc(100vh - 273.61px);
+    }
 }
 
 
