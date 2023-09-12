@@ -3,6 +3,7 @@ import { useState } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api"
+import { motion, AnimatePresence } from "framer-motion"
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
@@ -27,7 +28,9 @@ function Map() {
               <p>Scan</p>
           </div>
       </a>
-      {PopUpState && <RidePopUpContainer title="Navigation" speed="19" distance="4,7" time="17" bike_name="RB48X" battery="54" time_remaining="3" pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+      <AnimatePresence>
+        {PopUpState && <RidePopUpContainer title="Navigation" speed="19" distance="4,7" time="17" bike_name="RB48X" battery="54" time_remaining="3" pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+      </AnimatePresence>
     </div>
   )
 }
