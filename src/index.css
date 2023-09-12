@@ -24,6 +24,10 @@ body, html, * {
   font-family: "Urbanist", sans-serif;
 }
 
+body, html {
+  overflow: hidden !important;
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
