@@ -11,7 +11,7 @@ function Login() {
 
   const Submit = (e) => {
     e.preventDefault();
-    navigate("/Map");
+    return false;
   }
 
   return (
