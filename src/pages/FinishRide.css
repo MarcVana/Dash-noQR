@@ -1,6 +1,7 @@
 .finish-ride-container {
     padding: 1rem;
     height: calc(65vh - 73.61px);
+    position: relative;
 }
 
 @media screen and (min-width: 577px) {
