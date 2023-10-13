@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import PopUpContainer from '../components/popups/PopUpContainer';
 import './Login.css'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 function Login() {
@@ -11,7 +12,24 @@ function Login() {
 
   const Submit = (e) => {
     e.preventDefault();
-    navigate("/Map");
+    // var data = '{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "lock",\n  "expireTime": ""\n}';
+    // var config = {
+    //   method: 'post',
+    //   maxBodyLength: Infinity,
+    //   url: 'https://iot-api.okai.co/shareos-device/scooter/control/switchLock',
+    //   headers: { 
+    //     'Content-Type': 'application/json;charset=utf-8'
+    //   },
+    //   data : data
+    // };
+    // axios(config)
+    // .then(function (response) {
+    //   console.log(JSON.stringify(response.data));
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+    //navigate("/Map");
   }
 
   return (
@@ -41,7 +59,7 @@ function Login() {
             <p>2023 Dash v0.1</p>
           </div>
         </div>
-        {PopUpState && <PopUpContainer title="Get your password" text="You need to... Lorem ipsum dolor sit amet consectetur. Tellus rhoncus morbi eget dignissim. Neque eget id et eu. Sapien aliquam amet mauris sit. Lorem ipsum dolor sit amet consectetur. Tellus rhoncus morbi eget dignissim. Neque eget id et eu. Sapien aliquam amet mauris sit." close={()=>setPopUpState(false)}/>}
+        {PopUpState && <PopUpContainer close={()=>setPopUpState(false)}/>}
     </>
   )
 }

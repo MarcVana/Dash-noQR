@@ -205,3 +205,44 @@
 .pop-up-container.ride .ride-options-circle img {
     width: 32px;
 }
+
+.problems-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+    -webkit-column-gap: 2rem;
+       -moz-column-gap: 2rem;
+            column-gap: 2rem;
+    margin-top: 10px;
+}
+
+.problems-grid label {
+    margin-left: 5px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+
+.problems-grid div input {
+    width: 12px;
+    -webkit-transform: translateY(1px);
+        -ms-transform: translateY(1px);
+            transform: translateY(1px);
+}
+
+.problems-form .description-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+.problems-form {
+    width: 100%;
+}
+
+.problems-form textarea {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--black);
+    font-size: 16px;
+}

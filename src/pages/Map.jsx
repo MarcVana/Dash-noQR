@@ -1,19 +1,58 @@
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api"
 import { motion, AnimatePresence } from "framer-motion"
+import { Html5QrcodeScanner } from 'html5-qrcode'
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
   const [pauseState,setPauseState] = useState(false);
+  const [readerState,setReaderState] = useState(false);
+  const [scanResult, setScanResult] = useState(null);
+  
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
   });
-
-  if (!isLoaded) return <div>Loading...</div>
+  
   const center = {lat: 46.768250, lng: 23.594063};
+  useEffect(() => {
+      //if (PopUpState == false) return;
+      if (!isLoaded) return;
+      const scanner = new Html5QrcodeScanner('reader', {
+        qrbox: {
+          width: 250,
+          height: 250,
+        },
+        fps: 10,
+      });
+    
+      scanner.render(success, error);
+
+      // const checkScanner = () => {
+      //   const button = document.getElementById("reader").querySelector("button");
+      //   console.log(button);
+      //   button.addEventListener("click", () => {
+      //      setPopUpState(false);
+      //   })
+      // }
+
+      //checkScanner();
+  
+      function success(result) {
+        scanner.clear();
+        setScanResult(result);
+      }
+    
+      function error(err) {
+        console.warn(err);
+      }
+  }, [isLoaded]);
+
+  
+  if (!isLoaded) return <div>Loading...</div>
+
   return (
     <div className="map-screen">
       <div className="nav-container position-absolute">
@@ -28,6 +67,10 @@ function Map() {
               <p>Scan</p>
           </div>
       </a>
+      {scanResult
+      ? <div>Success: <a href={"https://" + scanResult}>{scanResult}</a></div>
+      : <div id="reader"></div>
+      }
       <AnimatePresence>
         {PopUpState && <RidePopUpContainer title="Navigation" speed="19" distance="4,7" time="17" bike_name="RB48X" battery="54" time_remaining="3" pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
       </AnimatePresence>

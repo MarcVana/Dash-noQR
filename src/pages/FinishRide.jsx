@@ -3,10 +3,13 @@ import { NavLink, useSearchParams } from 'react-router-dom'
 import './Login.css'
 import './FinishRide.css'
 import { useNavigate } from 'react-router-dom'
+import ReportPopUpContainer from '../components/popups/ReportPopUpContainer'
 
 function FinishRide() {
   const [starState,setStarState] = useState("0");
   const [formState,setFormState] = useState(false);
+  const [reportState,setReportState] = useState(false);
+  const [popUpState,setPopUpState] = useState(false);
   const distance = "4.7";
   const time = "17";
   const navigate = useNavigate();
@@ -16,6 +19,15 @@ function FinishRide() {
     e.preventDefault();
     //   navigate(`/FinishRide?stars=${starState}`);
         setFormState(true);
+      //e.preventDefault();
+  }
+
+  const Submit2 = (e) => {
+    console.log("Da");
+    e.preventDefault();
+    //   navigate(`/FinishRide?stars=${starState}`);
+        setReportState(true);
+        setPopUpState(false);
       //e.preventDefault();
   }
 
@@ -66,8 +78,17 @@ function FinishRide() {
                     </form>
                 </div>
             </div>}
+            <div style={{height: "20px"}}></div>
+            {reportState 
+            ? <div>
+                <p className="success-message">Thank you for reporting the problem.</p>
+            </div> 
+            : <div>
+                <a onClick={()=>setPopUpState(!popUpState)}>Report a problem</a>
+            </div>}
             <button className="primary-btn"><NavLink to="/Login">Dismiss</NavLink></button>
         </div>
+        {popUpState && <ReportPopUpContainer submit_f={Submit2} close={()=>setPopUpState(false)}/>}
     </>
   )
 }

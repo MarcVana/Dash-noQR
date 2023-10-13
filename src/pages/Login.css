@@ -68,6 +68,14 @@
     }
 }
 
+@media screen and (max-height: 700px) {
+    .img-container {
+        height: 120px;
+        background-position: center 50%;
+        border-bottom-right-radius: 50px;
+    }
+}
+
 
 .login-bg {
     height: 40vh;
@@ -103,7 +111,7 @@
     font-size: 16px;
 }
 
-.login-form button, .primary-btn a {
+.login-form button, .primary-btn a, .problems-form button {
     display: inline-block;
     width: 100%;
     max-width: 600px;
@@ -114,6 +122,10 @@
     color: var(--white);
     font-size: 1rem;
     font-weight: 600;
+}
+
+.problems-form button {
+    margin-top: 20px;
 }
 
 .login-form button {
