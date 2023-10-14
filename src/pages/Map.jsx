@@ -2,22 +2,37 @@ import { NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api"
+import { GoogleMap, useLoadScript, MarkerF, Marker } from "@react-google-maps/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { Html5QrcodeScanner } from 'html5-qrcode'
+import axios from 'axios'
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
   const [pauseState,setPauseState] = useState(false);
   const [readerState,setReaderState] = useState(false);
   const [scanResult, setScanResult] = useState(null);
+  const [StartScan,setStartScan] = useState(false);
+  const [Scanning,setIsScanning] = useState(false);
+  const [BikeData,setBikeData] = useState()
+  const [Scanner,setScanner] = useState();
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
   });
+
+  useEffect(()=>{
+    getBikeStatus();
+  },[])
   
   const center = {lat: 46.768250, lng: 23.594063};
   useEffect(() => {
+      if(!StartScan){
+        console.log();
+        if(Scanner!=undefined)
+          Scanner.clear();
+        return
+      }
       //if (PopUpState == false) return;
       if (!isLoaded) return;
       const scanner = new Html5QrcodeScanner('reader', {
@@ -27,9 +42,10 @@ function Map() {
         },
         fps: 10,
       });
+      setScanner(scanner);
     
       scanner.render(success, error);
-
+      
       // const checkScanner = () => {
       //   const button = document.getElementById("reader").querySelector("button");
       //   console.log(button);
@@ -42,14 +58,44 @@ function Map() {
   
       function success(result) {
         scanner.clear();
+        console.log(result);
         setScanResult(result);
+        StartTrip();
       }
     
       function error(err) {
         console.warn(err);
+        console.log(err);
       }
-  }, [isLoaded]);
+      return () => {
+        /*console.log("test");*/
+        scanner.clear()
+      };
+  }, [isLoaded,StartScan]);
 
+  const StartTrip = async () =>{
+      const response = axios.post("https://dash-backend-372ad5525a1d.herokuapp.com/api/trip/",
+      {
+        "start_point": [0, 0],
+        "bike_id": 1
+      })
+      console.log(response);
+      getBikeStatus();
+  }
+
+
+  const getBikeStatus = async () =>{
+      axios({
+        method: 'get',
+        url: 'https://iot-api.okai.co/shareos-device/scooter/query/status?userKey=jzah5zxlm7mxmsl1wgbxyn2dzb6akluq&timestamp=000&sign=000&imei=868963047087986',
+        headers: { 
+          'Content-Type': 'application/json;charset=utf-8'
+        }
+      }).then((response)=>{
+        console.log(response);
+        setBikeData(response.data.data)
+      })
+  }
   
   if (!isLoaded) return <div>Loading...</div>
 
@@ -59,20 +105,23 @@ function Map() {
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
       </div>
       <GoogleMap onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
-          <MarkerF position={center}></MarkerF>
+          {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
+            <p>test</p>
+          </Marker>:<></>}
       </GoogleMap>
-      <a onClick={()=>setPopUpState(!PopUpState)}>
+      <a className='primary-btn' onClick={()=>setStartScan(!StartScan)}>
           <div className="flex align-center justify-center button-flex">
               <img src="scan.svg" alt="scan icon" />
-              <p>Scan</p>
+              <p>{StartScan?"Close":"Scan"}</p>
           </div>
       </a>
-      {scanResult
+      {StartScan?
+      (scanResult
       ? <div>Success: <a href={"https://" + scanResult}>{scanResult}</a></div>
       : <div id="reader"></div>
-      }
+      ):<></>}
       <AnimatePresence>
-        {PopUpState && <RidePopUpContainer title="Navigation" speed="19" distance="4,7" time="17" bike_name="RB48X" battery="54" time_remaining="3" pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time="17" bike_name="RB48X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
       </AnimatePresence>
     </div>
   )

@@ -68,10 +68,13 @@
 }
 
 #reader #reader__scan_region, #reader #reader__scan_region video {
-    height: 100vh !important;
-    width: 100vw !important;
+    /*height: calc(100vh - 200px)!important;*/
+    /*width: 100vw !important;*/
     -o-object-fit: cover;
        object-fit: cover;
+}
+.primary-btn{
+    z-index: 20!important;
 }
 
 #reader #reader__dashboard_section_csr span button {

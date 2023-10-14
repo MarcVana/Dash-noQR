@@ -12,24 +12,24 @@ function Login() {
 
   const Submit = (e) => {
     e.preventDefault();
-    // var data = '{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "lock",\n  "expireTime": ""\n}';
-    // var config = {
-    //   method: 'post',
-    //   maxBodyLength: Infinity,
-    //   url: 'https://iot-api.okai.co/shareos-device/scooter/control/switchLock',
-    //   headers: { 
-    //     'Content-Type': 'application/json;charset=utf-8'
-    //   },
-    //   data : data
-    // };
-    // axios(config)
-    // .then(function (response) {
-    //   console.log(JSON.stringify(response.data));
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-    //navigate("/Map");
+    var data = '{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "lock",\n  "expireTime": ""\n}';
+    var config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://iot-api.okai.co/shareos-device/scooter/control/switchLock',
+     headers: { 
+    'Content-Type': 'application/json;charset=utf-8'
+    },
+    data : data
+    };
+    axios(config)
+    .then(function (response) {
+    console.log(JSON.stringify(response.data));
+    navigate("/Map")
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
   }
 
   return (
@@ -43,7 +43,7 @@ function Login() {
             <p>Password</p>
             <input type="text" required></input>
           </div>
-          <button type="submit"><NavLink to="/Map">Submit</NavLink></button>
+          <button type="submit">Submit</button>
         </form>
         <div className="details-div">
           <p>You may want to screenshot the password in case you forget.</p>

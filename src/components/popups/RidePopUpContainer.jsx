@@ -2,7 +2,7 @@ import './PopUpContainer.css'
 import { NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from "framer-motion"
 
-function RidePopUpContainer({title, speed, distance, time, bike_name, battery, time_remaining, close, pause, setPauseState, className}) {
+function RidePopUpContainer({title, speed, distance, time, bike_name, battery, time_remaining , km_remaining, close, pause, setPauseState, className}) {
 
     const variants = {
         in: {x: -15, transition: {ease: "circOut"}},
@@ -58,12 +58,16 @@ function RidePopUpContainer({title, speed, distance, time, bike_name, battery, t
                     <h6>{bike_name}</h6>
                     <div className="flex align-center bike-info">
                         <div className="flex align-center">
-                            <img src="battery.svg" alt="battery icon" className="battery" />
+                            <div className="batery-container">
+                                <div className="battery-bar" style={{width:`${battery*0.7}%`,backgroundColor:(battery<30?"#FF5151":"#5FFF51")}}></div>
+                                <svg  className="battery" width="215" height="129" viewBox="0 0 215 129" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M171.749 0.25H32.541C24.0209 0.25 15.8498 3.63459 9.82521 9.65919C3.80061 15.6838 0.416016 23.8549 0.416016 32.375V96.625C0.416016 105.145 3.80061 113.316 9.82521 119.341C15.8498 125.365 24.0209 128.75 32.541 128.75H171.749C180.269 128.75 188.441 125.365 194.465 119.341C200.49 113.316 203.874 105.145 203.874 96.625C206.714 96.625 209.438 95.4968 211.446 93.4886C213.455 91.4804 214.583 88.7567 214.583 85.9167V43.0833C214.583 40.2433 213.455 37.5196 211.446 35.5114C209.438 33.5032 206.714 32.375 203.874 32.375C203.874 23.8549 200.49 15.6838 194.465 9.65919C188.441 3.63459 180.269 0.25 171.749 0.25ZM171.749 21.6667H32.541C29.701 21.6667 26.9773 22.7949 24.9691 24.8031C22.9609 26.8113 21.8327 29.535 21.8327 32.375V96.625C21.8327 99.465 22.9609 102.189 24.9691 104.197C26.9773 106.205 29.701 107.333 32.541 107.333H171.749C174.589 107.333 177.313 106.205 179.321 104.197C181.329 102.189 182.458 99.465 182.458 96.625V32.375C182.458 29.535 181.329 26.8113 179.321 24.8031C177.313 22.7949 174.589 21.6667 171.749 21.6667Z" fill="black"/> </svg>
+                            </div>
                             <p>{battery}%</p>
                         </div>
                         <div className="flex align-center">
                             <img src="clock.svg" alt="clock icon" className="clock" />
-                            <p className="color-gray">{time_remaining} hrs left</p>
+                            <p className="color-gray">{Math.floor(km_remaining)} km left</p>
                         </div>
                     </div>
                 </div>
