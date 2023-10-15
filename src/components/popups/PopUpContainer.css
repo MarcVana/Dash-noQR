@@ -201,6 +201,18 @@
     gap: 1.5rem;
 }
 
+.pop-up-container .bike-rectangle-img{
+    height: 3rem!important;
+    width: 3rem!important;
+    object-fit: cover;
+    object-position: left;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+}
+
 @media screen and (max-width: 360px) {
     .pop-up-container.ride .flex.ride-options-circles {
         -webkit-transform: translateX(1rem);

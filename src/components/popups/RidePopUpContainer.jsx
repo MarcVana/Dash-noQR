@@ -53,7 +53,7 @@ function RidePopUpContainer({title, speed, distance, time, bike_name, battery, t
                 </div>
             </div>
             <div className="flex align-center bike">
-                <img src="placeholder.jpg" alt="bike image" />
+                <img src="bike-img.jpg" alt="bike image" className='bike-rectangle-img'/>
                 <div>
                     <h6>{bike_name}</h6>
                     <div className="flex align-center bike-info">

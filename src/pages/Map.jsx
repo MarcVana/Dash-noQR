@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
 import { GoogleMap, useLoadScript, MarkerF, Marker } from "@react-google-maps/api"
@@ -16,6 +16,8 @@ function Map() {
   const [Scanning,setIsScanning] = useState(false);
   const [BikeData,setBikeData] = useState()
   const [Scanner,setScanner] = useState();
+  const [RideTime,setRideTime] = useState(0)
+  const mapRef = useRef(null);
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
@@ -81,6 +83,7 @@ function Map() {
       })
       console.log(response);
       getBikeStatus();
+      
   }
 
 
@@ -96,6 +99,16 @@ function Map() {
         setBikeData(response.data.data)
       })
   }
+
+  const renderGoogleMap = useMemo(() => {
+    return (
+      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
+          {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
+            <p>test</p>
+          </Marker>:<></>}
+      </GoogleMap>
+    )
+  }, [BikeData]);
   
   if (!isLoaded) return <div>Loading...</div>
 
@@ -104,11 +117,7 @@ function Map() {
       <div className="nav-container position-absolute">
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
       </div>
-      <GoogleMap onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
-          {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
-            <p>test</p>
-          </Marker>:<></>}
-      </GoogleMap>
+      {renderGoogleMap}
       <a className='primary-btn' onClick={()=>setStartScan(!StartScan)}>
           <div className="flex align-center justify-center button-flex">
               <img src="scan.svg" alt="scan icon" />
@@ -121,7 +130,7 @@ function Map() {
       : <div id="reader"></div>
       ):<></>}
       <AnimatePresence>
-        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time="17" bike_name="RB48X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time={Math.floor(RideTime/60)} bike_name="RB48X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
       </AnimatePresence>
     </div>
   )
