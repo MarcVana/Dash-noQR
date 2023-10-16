@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import './Login.css'
 import './FinishRide.css'
@@ -42,14 +42,14 @@ function FinishRide() {
             <div className="flex align-center gap-4">
                 <div className="number-div small">
                     <div className="flex align-end">
-                        <h5>{distance}</h5>
+                        <h5>{searchParams.get("ride_distance")}</h5>
                         <p>km</p>
                     </div>
                     <p>DISTANCE</p>
                 </div>
                 <div className="number-div small">
                     <div className="flex align-end">
-                        <h5>{time}</h5>
+                        <h5>{searchParams.get("ride_time")}</h5>
                         <p>min</p>
                     </div>
                     <p>RIDE TIME</p>

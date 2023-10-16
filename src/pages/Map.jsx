@@ -169,7 +169,8 @@ function Map() {
       : <div id="reader"></div>
       ):<></>}
       <AnimatePresence>
-        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={(StartingTotalMile-BikeData.totalMile)*1.60934} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate("/FinishRide"))}/>}
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={(StartingTotalMile-BikeData.totalMile)*1.60934} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} 
+        finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${RideTime}&ride_distance=${(StartingTotalMile-BikeData.totalMile)*1.60934}`))}/>}
       </AnimatePresence>
     </div>
   )
