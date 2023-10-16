@@ -28,7 +28,7 @@ function Map() {
 
   useEffect(()=>{
     getBikeStatus();
-    const interval = setInterval(()=>getBikeStatus(),5000);
+    const interval = setInterval(()=>getBikeStatus(),1000);
     return () => clearInterval(interval);
   },[])
 
