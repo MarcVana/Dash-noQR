@@ -34,7 +34,7 @@ function FinishRide() {
   return (
     <>
         <div className="nav-container">
-        <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
+        <NavLink to="/Start"><img src="logo-purple.png" alt="logo" /></NavLink>
         </div>
         <div className="img-container img-2"><h1>Thank you.</h1></div>
         <div className="finish-ride-container flex flex-column">
@@ -86,7 +86,7 @@ function FinishRide() {
             : <div>
                 <a onClick={()=>setPopUpState(!popUpState)}>Report a problem</a>
             </div>}
-            <button className="primary-btn"><NavLink to="/Login">Dismiss</NavLink></button>
+            <button className="primary-btn"><NavLink to="/Start">Dismiss</NavLink></button>
         </div>
         {popUpState && <ReportPopUpContainer submit_f={Submit2} close={()=>setPopUpState(false)}/>}
     </>

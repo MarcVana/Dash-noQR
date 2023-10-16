@@ -34,6 +34,18 @@
     font-size: 1rem;
 }
 
+.map-screen .flex.align-center p {
+    -webkit-transform: translateY(1px);
+        -ms-transform: translateY(1px);
+            transform: translateY(1px);
+}
+
+.map-screen .flex.align-center.battery-div .batery-container {
+    -webkit-transform: translateY(4px);
+        -ms-transform: translateY(4px);
+            transform: translateY(4px);
+}
+
 .nav-container.position-absolute {
     position: absolute;
     top: 0;

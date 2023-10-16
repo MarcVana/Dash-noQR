@@ -35,18 +35,18 @@ function Login() {
   return (
     <>
         <div className="nav-container">
-        <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
+        <NavLink to="/Start"><img src="logo-purple.png" alt="logo" /></NavLink>
         </div>
         <div className="img-container"><h1>Let's get you riding.</h1></div>
         <form className="login-form" onSubmit={Submit}>
           <div>
-            <p>Password</p>
+            <p>Code</p>
             <input type="text" required></input>
           </div>
           <button type="submit">Submit</button>
         </form>
         <div className="details-div">
-          <p>You may want to screenshot the password in case you forget.</p>
+          <p>You may want to screenshot the code in case you forget it.</p>
           <div className="flex align-center">
             <img src="question-circle.svg" alt="icon" />
             <a onClick={()=>setPopUpState(!PopUpState)}>Don’t know how to get this info?</a>
@@ -56,10 +56,10 @@ function Login() {
           <p><NavLink to="/Terms">Terms &amp; Conditions</NavLink> apply.</p>
           <div className="flex align-center justify-center">
             <img src="copyright.svg" alt="icon" />
-            <p>2023 Dash v0.1</p>
+            <p>2023 Dash v1.0</p>
           </div>
         </div>
-        {PopUpState && <PopUpContainer close={()=>setPopUpState(false)}/>}
+        {PopUpState && <PopUpContainer close={()=>setPopUpState(false)} title="Get your code" text="Kindly inquire with the receptionist stationed at the entrance, and they will provide you with a four-digit code for accessing Dash services." />}
     </>
   )
 }

@@ -1,0 +1,35 @@
+.terms-page {
+    padding-inline: 1rem;
+}
+
+.terms-page h1 {
+    font-size: 1.25rem;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.terms-page h1.h1-2 {
+    margin-top: 10px;
+}
+
+.terms-page h1.h1-3 {
+    font-size: 1.1rem;
+    margin-top: 30px;
+}
+
+.terms-page p {
+    margin-top: 10px;
+}
+
+.terms-page h2 {
+    font-size: 1.1rem;
+    margin-top: 30px;
+}
+
+.terms-page p .bold, .terms-page p.bold {
+    font-weight: 600;
+}
+
+.terms-page p.final {
+    margin-bottom: 30px;
+}

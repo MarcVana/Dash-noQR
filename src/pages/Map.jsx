@@ -107,7 +107,7 @@ function Map() {
     return (
       <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
           {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
-            <p>test</p>
+            <div>test</div>
           </Marker>:<></>}
       </GoogleMap>
     )
@@ -118,7 +118,7 @@ function Map() {
   return (
     <div className="map-screen">
       <div className="nav-container position-absolute">
-        <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
+        <NavLink to="/Start"><img src="logo-purple.png" alt="logo" /></NavLink>
       </div>
       {renderGoogleMap}
       
@@ -141,7 +141,7 @@ function Map() {
       : <div id="reader"></div>
       ):<></>}
       <AnimatePresence>
-        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time={Math.floor(RideTime/60)} bike_name="RB48X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+        {<RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time={Math.floor(RideTime/60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
       </AnimatePresence>
     </div>
   )

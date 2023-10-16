@@ -57,7 +57,7 @@ function RidePopUpContainer({title, speed, distance, time, bike_name, battery, t
                 <div>
                     <h6>{bike_name}</h6>
                     <div className="flex align-center bike-info">
-                        <div className="flex align-center">
+                        <div className="flex align-center battery-div">
                             <div className="batery-container">
                                 <div className="battery-bar" style={{width:`${battery*0.7}%`,backgroundColor:(battery<30?"#FF5151":"#5FFF51")}}></div>
                                 <svg  className="battery" width="215" height="129" viewBox="0 0 215 129" fill="none" xmlns="http://www.w3.org/2000/svg">

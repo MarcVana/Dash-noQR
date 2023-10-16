@@ -202,10 +202,10 @@
 }
 
 .pop-up-container .bike-rectangle-img{
-    height: 3rem!important;
-    width: 3rem!important;
-    object-fit: cover;
-    object-position: left;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: left;
+       object-position: left;
     border-radius: 0.5rem;
     -webkit-border-radius: 0.5rem;
     -moz-border-radius: 0.5rem;
@@ -225,7 +225,7 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: 2px solid #E6E0F1;
+    border: 2px solid #D1E7FC;
 }
 
 .pop-up-container.ride  .ride-options-circle.stop {

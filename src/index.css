@@ -10,7 +10,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --primary: #7E5ABB;
+  --primary: #1988EF;
   --white: #fff;
   --black: #222;
   --gray: #999;
@@ -22,10 +22,6 @@ body, html, * {
   padding: 0;
   margin: 0;
   font-family: "Urbanist", sans-serif;
-}
-
-body, html {
-  overflow: hidden !important;
 }
 
 * {
