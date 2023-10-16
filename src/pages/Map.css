@@ -65,6 +65,28 @@
     border: none !important;
     z-index: 10;
 }
+.add-id-popup{
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    border-radius: 1rem;
+    width: calc(100vw - 2rem );
+    transform: translate(-50%);
+    background: var(--white);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+}
 
 #reader.false {
     display: none !important;

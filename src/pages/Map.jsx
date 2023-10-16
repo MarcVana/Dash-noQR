@@ -19,6 +19,9 @@ function Map() {
   const [Scanner,setScanner] = useState();
   const [RideTime,setRideTime] = useState(0)
   const [StartingTotalMile,setStartingTotalMile] = useState(0);
+  const [AddIdPopUpState,setAddIdPopUpState] = useState(false);
+  const [BikeIdValue,setBikeIdValue] = useState(0);
+  const [ErrorText, setErrorText] = useState();
   const mapRef = useRef(null);
   const navigate = useNavigate();
   
@@ -28,19 +31,27 @@ function Map() {
 
   useEffect(()=>{
     getBikeStatus();
-    const interval = setInterval(()=>getBikeStatus(),1000);
+    ChangeBikeLockStatus("lock",()=>{})
+    const interval = setInterval(()=>getBikeStatus(),10000);
     return () => clearInterval(interval);
   },[])
 
   const StartRide = () =>{
     console.log("start ride");
-    setScanResult("test");
-    setStartingTotalMile(BikeData.totalMile);
-    getBikeStatus();
+    if(BikeIdValue!="1234"){
+      console.log(BikeIdValue);
+      setErrorText("No bike with this id");
+      return;
+    }
+
     ChangeBikeLockStatus("unlock",()=>{
       console.log("so deblocat!");
+      setScanResult("test");
+      setStartingTotalMile(BikeData.totalMile);
+      getBikeStatus();
+      setAddIdPopUpState(false);
+      setInterval(()=>setRideTime(count => count + 1),1000)
     });
-    setInterval(()=>setRideTime(count => count + 1),1000)
     /*return () => clearInterval(interval);*/
   }
   
@@ -157,7 +168,7 @@ function Map() {
       </div>
       {renderGoogleMap}
       
-      <a className='primary-btn' onClick={()=>StartRide()}>
+      <a className='primary-btn' onClick={()=>setAddIdPopUpState(true)}>
           <div className="flex align-center justify-center button-flex">
               {StartScan?<></>:<img src="scan.svg" alt="scan icon" />}
               <p>{StartScan?"Close":"Scan"}</p>
@@ -169,8 +180,14 @@ function Map() {
       : <div id="reader"></div>
       ):<></>}
       <AnimatePresence>
+        {AddIdPopUpState && 
+        <div className='add-id-popup'>
+          <input placeholder='add bike id' value={BikeIdValue} onChange={(e)=>setBikeIdValue(e.target.value)}></input>
+          <button onClick={()=>StartRide()}>Add id</button>
+          {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}
+        </div>}
         {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} 
-        finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${RideTime}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
+        finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${Math.floor(RideTime/60)+1}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
       </AnimatePresence>
     </div>
   )
