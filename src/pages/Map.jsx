@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef, useMemo } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
@@ -6,6 +6,7 @@ import { GoogleMap, useLoadScript, MarkerF, Marker } from "@react-google-maps/ap
 import { motion, AnimatePresence } from "framer-motion"
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
+import useInterval from '../hooks/useInterval'
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
@@ -17,7 +18,9 @@ function Map() {
   const [BikeData,setBikeData] = useState()
   const [Scanner,setScanner] = useState();
   const [RideTime,setRideTime] = useState(0)
+  const [StartingTotalMile,setStartingTotalMile] = useState(0);
   const mapRef = useRef(null);
+  const navigate = useNavigate();
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
@@ -25,9 +28,23 @@ function Map() {
 
   useEffect(()=>{
     getBikeStatus();
+    const interval = setInterval(()=>getBikeStatus(),5000);
+    return () => clearInterval(interval);
   },[])
+
+  const StartRide = () =>{
+    console.log("start ride");
+    setScanResult("test");
+    setStartingTotalMile(BikeData.totalMile);
+    getBikeStatus();
+    ChangeBikeLockStatus("unlock",()=>{
+      console.log("so deblocat!");
+    });
+    setInterval(()=>setRideTime(count => count + 1),1000)
+    /*return () => clearInterval(interval);*/
+  }
   
-  const center = {lat: 46.768250, lng: 23.594063};
+  const center = {lat: 46.770334, lng: 23.578434};
   useEffect(() => {
       if(!StartScan){
         console.log();
@@ -43,9 +60,6 @@ function Map() {
           height: 250,
         },
         fps: 10,
-        videoConstraints: {
-          facingMode: { ideal: "environment" },
-      },
       });
       setScanner(scanner);
     
@@ -103,9 +117,30 @@ function Map() {
       })
   }
 
+  const ChangeBikeLockStatus = (status,onSuccess) =>{
+    var data = `{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "${status}" ,\n  "expireTime": ""\n}`;
+    var config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://iot-api.okai.co/shareos-device/scooter/control/switchLock',
+     headers: { 
+    'Content-Type': 'application/json;charset=utf-8'
+    },
+    data : data
+    };
+    axios(config)
+    .then(function (response) {
+      console.log(response);
+        onSuccess();
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+  }
+
   const renderGoogleMap = useMemo(() => {
     return (
-      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={15} center={center} mapContainerClassName="map-container">
+      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={16} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:{lat:BikeData.latitude,lng:BikeData.longitude})} mapContainerClassName="map-container">
           {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
             <div>test</div>
           </Marker>:<></>}
@@ -122,14 +157,7 @@ function Map() {
       </div>
       {renderGoogleMap}
       
-      {StartScan?<a className='primary-btn rescan-btn' onClick={()=>setStartScan(true)}>
-        
-      <div className="flex align-center justify-center button-flex">
-        <img src="scan.svg" alt="scan icon" />
-        <p>Rescan</p>
-        </div>
-      </a>:<></>}
-      <a className='primary-btn' onClick={()=>setStartScan(!StartScan)}>
+      <a className='primary-btn' onClick={()=>StartRide()}>
           <div className="flex align-center justify-center button-flex">
               {StartScan?<></>:<img src="scan.svg" alt="scan icon" />}
               <p>{StartScan?"Close":"Scan"}</p>
@@ -141,7 +169,7 @@ function Map() {
       : <div id="reader"></div>
       ):<></>}
       <AnimatePresence>
-        {<RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance="4,7" time={Math.floor(RideTime/60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>setPopUpState(false)}/>}
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={(StartingTotalMile-BikeData.totalMile)*1.60934} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate("/FinishRide"))}/>}
       </AnimatePresence>
     </div>
   )

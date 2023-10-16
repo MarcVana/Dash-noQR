@@ -2,7 +2,7 @@ import './PopUpContainer.css'
 import { NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from "framer-motion"
 
-function RidePopUpContainer({title, speed, distance, time, bike_name, battery, time_remaining , km_remaining, close, pause, setPauseState, className}) {
+function RidePopUpContainer({title,finishRide, speed, distance, time, time_sec, bike_name, battery, time_remaining , km_remaining, close, pause, setPauseState, className}) {
 
     const variants = {
         in: {x: -15, transition: {ease: "circOut"}},
@@ -28,12 +28,10 @@ function RidePopUpContainer({title, speed, distance, time, bike_name, battery, t
                     <div className="ride-options-circle flex align-center justify-center" onClick={() => setPauseState()}>
                         {!pause ? <img src="pause.svg" alt="icon" /> : <img src="play.svg" alt="icon" />}
                     </div>
-                    <NavLink to="/FinishRide">
-                        <motion.div className="ride-options-circle stop  flex align-center justify-center"
-                            variants={variants} animate={pause ? 'in' : 'out'}>
-                            <img src="stop.svg" alt="icon" />
-                        </motion.div>
-                    </NavLink>
+                    <motion.div className="ride-options-circle stop  flex align-center justify-center" onClick={()=>finishRide()}
+                        variants={variants} animate={pause ? 'in' : 'out'}>
+                        <img src="stop.svg" alt="icon" />
+                    </motion.div>
                 </div>
             </div>
             <div className="flex align-center gap-4">
@@ -48,6 +46,10 @@ function RidePopUpContainer({title, speed, distance, time, bike_name, battery, t
                     <div className="flex align-end">
                         <h5>{time}</h5>
                         <p>min</p>
+                    </div>
+                    <div className="flex align-end">
+                        <h5>{time_sec}</h5>
+                        <p>sec</p>
                     </div>
                     <p>RIDE TIME</p>
                 </div>

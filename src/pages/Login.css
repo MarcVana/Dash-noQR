@@ -19,6 +19,16 @@
     
 }
 
+.error-text{
+    margin-left: auto;
+    margin-top: 0.5rem;
+    width:fit-content;
+    color: #ED3030;
+}
+.invisible{
+    opacity: 0;
+}
+
 .img-container {
     border-bottom-right-radius: 100px;
     background-image: url("../assets/login-bg.jpg");

@@ -8,10 +8,18 @@ import axios from 'axios'
 
 function Login() {
   const [PopUpState,setPopUpState] = useState(false);
+  const [Password, setPassword] = useState("");
+  const [ErrorText, setErrorText] = useState();
   const navigate = useNavigate();
 
   const Submit = (e) => {
     e.preventDefault();
+    if(Password!="1234"){
+      console.log("Wrong password!");
+      setErrorText("Wrong password!")
+      return;
+    }
+    /*
     var data = '{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "lock",\n  "expireTime": ""\n}';
     var config = {
     method: 'post',
@@ -29,7 +37,8 @@ function Login() {
     })
     .catch(function (error) {
     console.log(error);
-    });
+    });*/
+    navigate("/Map")
   }
 
   return (
@@ -41,9 +50,10 @@ function Login() {
         <form className="login-form" onSubmit={Submit}>
           <div>
             <p>Code</p>
-            <input type="text" required></input>
+            <input type="text" value={Password} onChange={(e)=>{setPassword(e.target.value);setErrorText(undefined)}} required></input>
           </div>
           <button type="submit">Submit</button>
+          {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}
         </form>
         <div className="details-div">
           <p>You may want to screenshot the code in case you forget it.</p>
