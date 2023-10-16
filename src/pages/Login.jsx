@@ -15,8 +15,8 @@ function Login() {
   const Submit = (e) => {
     e.preventDefault();
     if(Password!="1234"){
-      console.log("Wrong password!");
-      setErrorText("Wrong password!")
+      console.log("Wrong code!");
+      setErrorText("Wrong code!");
       return;
     }
     /*

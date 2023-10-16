@@ -1,0 +1,28 @@
+.notification-popup{
+    position: fixed;
+    z-index: 30;
+    left: 50%;
+    gap: 0.5rem;
+    transform: translateX(-50%);
+    top: 5rem;
+    background: #D1E7FC;
+    text-align: center;
+    color: var(--black);
+    padding: 0.3rem 3rem;
+    border-radius: 0.5rem;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.notification-popup p {
+    font-size: 16px;
+    font-weight: 600;
+    width: 200px;
+}
+
+.notification-popup img {
+    width: 16px;
+    height: 16px;
+}

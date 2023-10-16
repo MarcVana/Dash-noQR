@@ -132,8 +132,17 @@
 }
 
 .pop-up-container.ride .flex.gap-4 {
-    gap: 4rem;
+    width: 100%;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     margin-top: 20px;
+}
+
+.pop-up-container.ride .flex.gap-4 .no-margin {
+    margin: 0;
+    min-width: 175px;
 }
 
 .pop-up-container.ride .flex.bike {

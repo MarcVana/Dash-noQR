@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
 import useInterval from '../hooks/useInterval'
+import NotificationPopUp from '../components/popups/NotificationPopUp';
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
@@ -20,10 +21,13 @@ function Map() {
   const [RideTime,setRideTime] = useState(0)
   const [StartingTotalMile,setStartingTotalMile] = useState(0);
   const [AddIdPopUpState,setAddIdPopUpState] = useState(false);
-  const [BikeIdValue,setBikeIdValue] = useState(0);
+  const [BikeIdValue,setBikeIdValue] = useState(null);
   const [ErrorText, setErrorText] = useState();
   const mapRef = useRef(null);
   const navigate = useNavigate();
+  const [NotificationPopUpState, setNotificationPopUpState] = useState(null);
+  const [waitFirstTry, setWaitFirstTry] = useState(true);
+  const [playPause, setPlayPause] = useState("");
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
@@ -32,7 +36,7 @@ function Map() {
   useEffect(()=>{
     getBikeStatus();
     ChangeBikeLockStatus("lock",()=>{})
-    const interval = setInterval(()=>getBikeStatus(),10000);
+    const interval = setInterval(()=>getBikeStatus(),500);
     return () => clearInterval(interval);
   },[])
 
@@ -45,7 +49,9 @@ function Map() {
     }
 
     ChangeBikeLockStatus("unlock",()=>{
-      console.log("so deblocat!");
+      setNotificationPopUpState("Ride started successfully.");
+      setTimeout(() => setNotificationPopUpState(null), 3000);
+      console.log("s-a deblocat!");
       setScanResult("test");
       setStartingTotalMile(BikeData.totalMile);
       getBikeStatus();
@@ -129,6 +135,13 @@ function Map() {
   }
 
   const ChangeBikeLockStatus = (status,onSuccess) =>{
+      if (waitFirstTry == false) {
+        setNotificationPopUpState("Please wait...");
+        setTimeout(() => setNotificationPopUpState(null), 3000);
+      } else {
+        setWaitFirstTry(false);
+      }
+    console.log("change status");
     var data = `{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "${status}" ,\n  "expireTime": ""\n}`;
     var config = {
     method: 'post',
@@ -151,7 +164,7 @@ function Map() {
 
   const renderGoogleMap = useMemo(() => {
     return (
-      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={16} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:{lat:BikeData.latitude,lng:BikeData.longitude})} mapContainerClassName="map-container">
+      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={16} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:{lat:46.770334,lng:23.578434})} mapContainerClassName="map-container">
           {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
             <div>test</div>
           </Marker>:<></>}
@@ -168,7 +181,8 @@ function Map() {
       </div>
       {renderGoogleMap}
       
-      <a className='primary-btn' onClick={()=>setAddIdPopUpState(true)}>
+      <a className='primary-btn' onClick={()=>{setTimeout(() => setAddIdPopUpState(true), 3500);setNotificationPopUpState("Please wait...");
+      setTimeout(() => setNotificationPopUpState(null), 3000); }}>
           <div className="flex align-center justify-center button-flex">
               {StartScan?<></>:<img src="scan.svg" alt="scan icon" />}
               <p>{StartScan?"Close":"Scan"}</p>
@@ -182,12 +196,16 @@ function Map() {
       <AnimatePresence>
         {AddIdPopUpState && 
         <div className='add-id-popup'>
-          <input placeholder='add bike id' value={BikeIdValue} onChange={(e)=>setBikeIdValue(e.target.value)}></input>
-          <button onClick={()=>StartRide()}>Add id</button>
+          <p>We encountered an error opening your camera. <span className="bold">Please input the vehicle ID instead.</span></p>
+          <input placeholder='Vehicle ID' value={BikeIdValue} onChange={(e)=>{setBikeIdValue(e.target.value); setErrorText(undefined)}}></input>
+          <button onClick={()=>StartRide()}>Check</button>
           {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}
         </div>}
-        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} 
-        finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${Math.floor(RideTime/60)+1}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
+        
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} pauseRide={() => {ChangeBikeLockStatus("lock"); setPlayPause("false")}} playRide={() => {ChangeBikeLockStatus("unlock"); setPlayPause("true")}} finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${Math.floor(RideTime/60)+1}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+                {NotificationPopUpState && <NotificationPopUp close={() => setNotificationPopUpState(null)}>{NotificationPopUpState}</NotificationPopUp>}
       </AnimatePresence>
     </div>
   )

@@ -2,7 +2,7 @@ import './PopUpContainer.css'
 import { NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from "framer-motion"
 
-function RidePopUpContainer({title,finishRide, speed, distance, time, time_sec, bike_name, battery, time_remaining , km_remaining, close, pause, setPauseState, className}) {
+function RidePopUpContainer({title,finishRide, pauseRide, playRide, speed, distance, time, time_sec, bike_name, battery, time_remaining , km_remaining, close, pause, setPauseState, className}) {
 
     const variants = {
         in: {x: -15, transition: {ease: "circOut"}},
@@ -25,7 +25,17 @@ function RidePopUpContainer({title,finishRide, speed, distance, time, time_sec, 
                     <p>SPEED</p>
                 </div>
                 <div className="flex align-center ride-options-circles">
-                    <div className="ride-options-circle flex align-center justify-center" onClick={() => setPauseState()}>
+                    <div className="ride-options-circle flex align-center justify-center" onClick={() => {
+                            setPauseState();
+                            console.log("pause: ");
+                            console.log(pause);
+                            if (pause == false) {
+                                pauseRide();
+                            }
+                            if (pause == true) {
+                                playRide();
+                            }
+                        }}>
                         {!pause ? <img src="pause.svg" alt="icon" /> : <img src="play.svg" alt="icon" />}
                     </div>
                     <motion.div className="ride-options-circle stop  flex align-center justify-center" onClick={()=>finishRide()}
@@ -43,13 +53,15 @@ function RidePopUpContainer({title,finishRide, speed, distance, time, time_sec, 
                     <p>DISTANCE</p>
                 </div>
                 <div className="number-div small">
-                    <div className="flex align-end">
-                        <h5>{time}</h5>
-                        <p>min</p>
-                    </div>
-                    <div className="flex align-end">
-                        <h5>{time_sec}</h5>
-                        <p>sec</p>
+                    <div className="flex align-center no-margin">
+                        <div className="flex align-end">
+                            <h5>{time}</h5>
+                            <p>min</p>
+                        </div>
+                        <div className="flex align-end">
+                            <h5>{time_sec}</h5>
+                            <p>sec</p>
+                        </div>
                     </div>
                     <p>RIDE TIME</p>
                 </div>
