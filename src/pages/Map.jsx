@@ -43,6 +43,9 @@ function Map() {
           height: 250,
         },
         fps: 10,
+        videoConstraints: {
+          facingMode: { exact: "environment" },
+      },
       });
       setScanner(scanner);
     
