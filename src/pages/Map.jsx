@@ -36,7 +36,7 @@ function Map() {
   useEffect(()=>{
     getBikeStatus();
     ChangeBikeLockStatus("lock",()=>{})
-    const interval = setInterval(()=>getBikeStatus(),500);
+    const interval = setInterval(()=>getBikeStatus(),1000);
     return () => clearInterval(interval);
   },[])
 
@@ -135,13 +135,25 @@ function Map() {
   }
 
   const ChangeBikeLockStatus = (status,onSuccess) =>{
+    console.log(pauseState);
+    if (RideTime == 0) {
       if (waitFirstTry == false) {
         setNotificationPopUpState("Please wait...");
         setTimeout(() => setNotificationPopUpState(null), 3000);
       } else {
         setWaitFirstTry(false);
       }
+    } else {
+      if (pauseState == false) {
+        setNotificationPopUpState("Ride paused successfully.");
+        setTimeout(() => setNotificationPopUpState(null), 3000);
+      } else if (pauseState == true) {
+        setNotificationPopUpState("Ride resumed successfully.");
+        setTimeout(() => setNotificationPopUpState(null), 3000);
+      }
+    }
     console.log("change status");
+    
     var data = `{\n  "userKey": "jzah5zxlm7mxmsl1wgbxyn2dzb6akluq",\n  "timestamp": "",\n  "sign": "",\n  "imei": "868963047087986",\n  "operate": "${status}" ,\n  "expireTime": ""\n}`;
     var config = {
     method: 'post',
@@ -164,8 +176,8 @@ function Map() {
 
   const renderGoogleMap = useMemo(() => {
     return (
-      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={16} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:{lat:46.770334,lng:23.578434})} mapContainerClassName="map-container">
-          {BikeData!=undefined?<Marker icon={{url: "full-electric-bike.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
+      <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={scanResult?17:10} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:undefined)} mapContainerClassName="map-container">
+          {BikeData!=undefined?<Marker icon={!scanResult ? {url: "full-electric-bike.svg",scale:1 } : {url: "live-location.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
             <div>test</div>
           </Marker>:<></>}
       </GoogleMap>
@@ -202,7 +214,7 @@ function Map() {
           {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}
         </div>}
         
-        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} pauseRide={() => {ChangeBikeLockStatus("lock"); setPlayPause("false")}} playRide={() => {ChangeBikeLockStatus("unlock"); setPlayPause("true")}} finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${Math.floor(RideTime/60)+1}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
+        {scanResult && <RidePopUpContainer title="Navigation" speed={BikeData?.speed} distance={Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100} time={Math.floor(RideTime/60)} time_sec={Math.floor(RideTime%60)} bike_name="RB01X" battery={BikeData?.batteryPercent} time_remaining="3" km_remaining={BikeData?.remainMile*1.60934} pause={pauseState} setPauseState={() => setPauseState(!pauseState)} close={()=>{setPopUpState(false)}} pauseRide={() => ChangeBikeLockStatus("lock")} playRide={() => ChangeBikeLockStatus("unlock")} finishRide={()=>ChangeBikeLockStatus("lock",()=>navigate(`/FinishRide?ride_time=${Math.floor(RideTime/60)+1}&ride_distance=${Math.round((BikeData.totalMile-StartingTotalMile)*1.60934 * 100) / 100}`))}/>}
       </AnimatePresence>
       <AnimatePresence mode="wait">
                 {NotificationPopUpState && <NotificationPopUp close={() => setNotificationPopUpState(null)}>{NotificationPopUpState}</NotificationPopUp>}
