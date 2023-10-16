@@ -118,9 +118,17 @@ function Map() {
         <NavLink to="/"><img src="logo-purple.png" alt="logo" /></NavLink>
       </div>
       {renderGoogleMap}
+      
+      {StartScan?<a className='primary-btn rescan-btn' onClick={()=>setStartScan(true)}>
+        
+      <div className="flex align-center justify-center button-flex">
+        <img src="scan.svg" alt="scan icon" />
+        <p>Rescan</p>
+        </div>
+      </a>:<></>}
       <a className='primary-btn' onClick={()=>setStartScan(!StartScan)}>
           <div className="flex align-center justify-center button-flex">
-              <img src="scan.svg" alt="scan icon" />
+              {StartScan?<></>:<img src="scan.svg" alt="scan icon" />}
               <p>{StartScan?"Close":"Scan"}</p>
           </div>
       </a>
