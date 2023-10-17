@@ -147,7 +147,7 @@ function Map() {
       }
     } else {
       if (pauseState == false) {
-        setNotificationPopUpState("Ride paused successfully.");
+        setNotificationPopUpState("Bike closed successfully.");
         setTimeout(() => setNotificationPopUpState(null), 3000);
       } else if (pauseState == true) {
         setNotificationPopUpState("Ride resumed successfully.");
@@ -221,7 +221,7 @@ function Map() {
       <AnimatePresence>
         {AddIdPopUpState && 
         <div className='add-id-popup'>
-          <p><span className="bold">Please input the vehicle ID.</span></p>
+          <p>You are inside a building. <span className="bold">Please input the vehicle ID.</span></p>
           <input placeholder='Vehicle ID' value={BikeIdValue} onChange={(e)=>{setBikeIdValue(e.target.value); setErrorText(undefined)}}></input>
           <button onClick={()=>StartRide()}>Check</button>
           {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}
