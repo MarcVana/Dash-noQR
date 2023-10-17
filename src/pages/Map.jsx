@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef, useMemo } from 'react'
 import './Map.css'
 import RidePopUpContainer from '../components/popups/RidePopUpContainer'
-import { GoogleMap, useLoadScript, MarkerF, Marker } from "@react-google-maps/api"
+import { GoogleMap, useLoadScript, MarkerF, Marker, InfoWindow } from "@react-google-maps/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
@@ -28,6 +28,8 @@ function Map() {
   const [NotificationPopUpState, setNotificationPopUpState] = useState(null);
   const [waitFirstTry, setWaitFirstTry] = useState(true);
   const [playPause, setPlayPause] = useState("");
+  const markerRef = useRef(null);
+  const [selectedMarker, setSelectedMarker] = useState(false);
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"
@@ -177,9 +179,21 @@ function Map() {
   const renderGoogleMap = useMemo(() => {
     return (
       <GoogleMap ref={mapRef} onClick={()=>setPopUpState(false)} options={{styles: googleMapsStyle, fullscreenControl: false, zoomControl: false, mapTypeControl: false, streetViewControl: false, keyboardShortcuts: false}} zoom={scanResult?17:10} center={BikeData==undefined?center:(scanResult?{lat:BikeData.latitude-0.0015,lng:BikeData.longitude}:undefined)} mapContainerClassName="map-container">
-          {BikeData!=undefined?<Marker icon={!scanResult ? {url: "full-electric-bike.svg",scale:1 } : {url: "live-location.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}}>
+          {BikeData!=undefined?<Marker icon={!scanResult ? {url: "full-electric-bike.svg",scale:1 } : {url: "live-location.svg",scale:1 }} position={{lat:BikeData?.latitude,lng:BikeData.longitude}} ref={markerRef} onClick={() => {setSelectedMarker(markerRef); console.log(selectedMarker)}}>
             <div>test</div>
           </Marker>:<></>}
+          {selectedMarker && <InfoWindow position={selectedMarker.position!=undefined ? selectedMarker.position : {lat: 46.770334, lng: 23.578434}} options={{pixelOffset: new window.google.maps.Size(0, -50)}} onClose={() => setSelectedMarker(false)} visible={true}>
+            <div className="info-window">
+              <div className="flex align-center">
+                <img src="battery2.svg" />
+                <p className="bold">{BikeData?.batteryPercent}%</p>
+              </div>
+              <div className="flex align-center">
+                <img src="walk.svg" className="img-2-info"/>
+                <p className="bold">0.1 km</p>
+              </div>
+            </div>
+          </InfoWindow>}
       </GoogleMap>
     )
   }, [BikeData]);
@@ -193,11 +207,10 @@ function Map() {
       </div>
       {renderGoogleMap}
       
-      <a className='primary-btn' onClick={()=>{setTimeout(() => setAddIdPopUpState(true), 3500);setNotificationPopUpState("Please wait...");
-      setTimeout(() => setNotificationPopUpState(null), 3000); }}>
+      <a className='primary-btn' onClick={()=>{setAddIdPopUpState(true);}}>
           <div className="flex align-center justify-center button-flex">
               {StartScan?<></>:<img src="scan.svg" alt="scan icon" />}
-              <p>{StartScan?"Close":"Scan"}</p>
+              <p>{StartScan?"Close":"Unlock"}</p>
           </div>
       </a>
       {StartScan?
@@ -208,7 +221,7 @@ function Map() {
       <AnimatePresence>
         {AddIdPopUpState && 
         <div className='add-id-popup'>
-          <p>We encountered an error opening your camera. <span className="bold">Please input the vehicle ID instead.</span></p>
+          <p><span className="bold">Please input the vehicle ID.</span></p>
           <input placeholder='Vehicle ID' value={BikeIdValue} onChange={(e)=>{setBikeIdValue(e.target.value); setErrorText(undefined)}}></input>
           <button onClick={()=>StartRide()}>Check</button>
           {ErrorText!=undefined?<p className='error-text'>{ErrorText}</p>:<p className='error-text invisible'>invisible</p>}

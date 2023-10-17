@@ -159,3 +159,27 @@
     text-decoration: none;
     opacity: 0 !important;
 }
+.info-window {
+    padding-top: 0.1rem;
+    z-index: 100;
+}
+
+.info-window img {
+    width: 24px;
+    margin-right: 2px;
+}
+
+.info-window img.img-2-info {
+    width: 18px;
+    margin-left: 3px;
+    margin-right: 5px;
+}
+
+.info-window p {
+    font-size: 12px;
+}
+
+.gm-style .gm-style-iw-c {
+    -webkit-box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1) !important;
+}
