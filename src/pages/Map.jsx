@@ -8,6 +8,7 @@ import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
 import useInterval from '../hooks/useInterval'
 import NotificationPopUp from '../components/popups/NotificationPopUp';
+import useWindowDimensions from '../hooks/getWindowDimensions';
 
 function Map() {
   const [PopUpState,setPopUpState] = useState(false);
@@ -30,6 +31,13 @@ function Map() {
   const [playPause, setPlayPause] = useState("");
   const markerRef = useRef(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
+
+  const { height, width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width > 476) 
+        navigate("/");
+  });
   
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAQ9w8QzW-huQWC59mnyIha1MWExnz3RsE"

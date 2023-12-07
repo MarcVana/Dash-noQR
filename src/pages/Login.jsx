@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import PopUpContainer from '../components/popups/PopUpContainer';
 import './Login.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import useWindowDimensions from '../hooks/getWindowDimensions';
 
 
 function Login() {
@@ -11,6 +12,13 @@ function Login() {
   const [Password, setPassword] = useState("");
   const [ErrorText, setErrorText] = useState();
   const navigate = useNavigate();
+
+  const { height, width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width > 476) 
+        navigate("/");
+  });
 
   const Submit = (e) => {
     e.preventDefault();

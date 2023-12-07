@@ -1,8 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Terms.css'
 import { NavLink } from 'react-router-dom'
+import useWindowDimensions from '../hooks/getWindowDimensions';
+import { useNavigate } from 'react-router-dom'
 
 function Terms() {
+  const navigate = useNavigate();
+  const { height, width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width > 476) 
+        navigate("/");
+  });
 
   return (
     <div className="terms-page">

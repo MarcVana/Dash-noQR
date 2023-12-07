@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
+
 import './Login.css'
 import './FinishRide.css'
 import { useNavigate } from 'react-router-dom'
 import ReportPopUpContainer from '../components/popups/ReportPopUpContainer'
+import useWindowDimensions from '../hooks/getWindowDimensions';
 
 function FinishRide() {
   const [starState,setStarState] = useState("0");
@@ -14,6 +16,13 @@ function FinishRide() {
   const time = "17";
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const { height, width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width > 476) 
+        navigate("/");
+  });
 
   const Submit = (e) => {
     e.preventDefault();
